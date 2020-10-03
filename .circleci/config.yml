@@ -38,25 +38,7 @@ jobs:
       - persist_to_workspace:
           root: ~/workspace
           paths: .
-  deploy_python_package:
-    <<: *shared_config
-    steps:
-      - attach_workspace:
-          at: ~/workspace
-      - run:
-          <<: *update_apt
-      - run:
-          <<: *install_pipenv
-      - run:
-          <<: *pipenv_install
-      - run:
-          name: Distribute
-          command: |
-            mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-            AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-            AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-            pipenv run publish daily-fantasy-sports-pip-repository
-  deploy_stack:
+  deploy_pip_repository:
     <<: *shared_config
     steps:
       - attach_workspace:
@@ -77,6 +59,24 @@ jobs:
             AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
             AWS_DEFAULT_REGION="us-east-1" \
             cdk deploy --require-approval never --verbose
+  deploy_python_package:
+    <<: *shared_config
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - run:
+          <<: *update_apt
+      - run:
+          <<: *install_pipenv
+      - run:
+          <<: *pipenv_install
+      - run:
+          name: Distribute
+          command: |
+            mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+            AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+            pipenv run publish "pip.aaronmamparo.com"
 workflows:
   version: 2
   checkout-deploy:
@@ -86,9 +86,13 @@ workflows:
             branches:
               only:
                 - master
+      - deploy_pip_repository:
+          context:
+            - AWS
+          requires:
+            - checkout
       - deploy_python_package:
+          context:
+            - AWS
           requires:
-            - checkout
-      - deploy_stack:
-          requires:
-            - checkout
+            - deploy_pip_repository

@@ -4,21 +4,21 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setup(
-    name='infrastructure',
+    name='aws-utilities',
     version='0.0.34',
     author='Aaron Mamparo',
     author_email='aaronmamparo@gmail.com',
-    description='Shared infrastructure helpers for the Daily Fantasy Sports project',
+    description='Helper functions and classes for common AWS operations',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/daily-fantasy-sports/infrastructure',
+    url='https://github.com/amamparo/python-aws-utilities',
     package_dir={
         '': 'src'
     },
     packages=find_packages('src'),
     entry_points={
         'console_scripts': [
-            'build = infrastructure.build_lambda_deployment_package:main'
+            'build = aws_utilities.console_scripts.build_lambda_deployment_package:main'
         ]
     },
     classifiers=[

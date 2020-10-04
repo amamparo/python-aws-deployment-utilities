@@ -1,9 +1,10 @@
+from os import environ
 from typing import cast
 
 from aws_cdk.aws_route53 import HostedZone, ARecord, RecordTarget, IAliasRecordTarget
 from aws_cdk.aws_route53_targets import BucketWebsiteTarget
 from aws_cdk.aws_s3 import Bucket, CorsRule, HttpMethods, BucketAccessControl
-from aws_cdk.core import Stack, Construct, App, RemovalPolicy, Duration
+from aws_cdk.core import Stack, Construct, App, RemovalPolicy, Duration, Environment
 
 
 class MainStack(Stack):
@@ -35,5 +36,8 @@ class MainStack(Stack):
 
 if __name__ == '__main__':
     app = App()
-    MainStack(app, 'pip-repository')
+    MainStack(app, 'pip-repository', env=Environment(
+        account=environ.get('AWS_ACCOUNT_ID'),
+        region=environ.get('AWS_DEFAULT_REGION')
+    ))
     app.synth()

@@ -4,11 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-aws-cdk-core = "*"
-aws-cdk-aws-s3 = "*"
-aws-cdk-aws-route53 = "*"
 s3-package-publisher = "*"
-aws-cdk-aws-route53-targets = "*"
 
 [packages]
 python-dotenv = "*"

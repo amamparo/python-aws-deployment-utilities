@@ -7,27 +7,6 @@ shared_config: &shared_config
       environment:
         PIPENV_VENV_IN_PROJECT: true
 
-update_apt: &update_apt
-  name: Update apt
-  command: |
-    sudo apt-get -y -qq update
-install_aws_cdk: &install_aws_cdk
-  name: Install AWS CDK
-  command: |
-    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-    sudo apt-get -y -qq install nodejs
-    sudo npm i -g aws-cdk
-install_pipenv: &install_pipenv
-  name: Install Pipenv
-  command: |
-    sudo apt-get -y -qq install python-dev python-pip
-    sudo pip install pipenv --upgrade
-pipenv_install: &pipenv_install
-  name: Pipenv Install (with dev dependencies)
-  command: |
-    pipenv --three
-    pipenv install -d
-
 jobs:
   checkout:
     <<: *shared_config
@@ -38,39 +17,25 @@ jobs:
       - persist_to_workspace:
           root: ~/workspace
           paths: .
-  deploy_pip_repository:
+  publish:
     <<: *shared_config
     steps:
       - attach_workspace:
           at: ~/workspace
-      - setup_remote_docker
       - run:
-          <<: *update_apt
-      - run:
-          <<: *install_pipenv
-      - run:
-          <<: *pipenv_install
-      - run:
-          <<: *install_aws_cdk
-      - run:
-          name: Deploy stack
+          name: Update apt
           command: |
-            AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-            AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-            AWS_DEFAULT_REGION="us-east-1" \
-            AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID}" \
-            cdk deploy --require-approval never --verbose
-  deploy_python_package:
-    <<: *shared_config
-    steps:
-      - attach_workspace:
-          at: ~/workspace
+            sudo apt-get -y -qq update
       - run:
-          <<: *update_apt
+          name: Install Pipenv
+          command: |
+            sudo apt-get -y -qq install python-dev python-pip
+            sudo pip install pipenv --upgrade
       - run:
-          <<: *install_pipenv
-      - run:
-          <<: *pipenv_install
+          name: Pipenv Install (with dev dependencies)
+          command: |
+            pipenv --three
+            pipenv install -d
       - run:
           name: Distribute
           command: |
@@ -87,13 +52,8 @@ workflows:
             branches:
               only:
                 - master
-      - deploy_pip_repository:
+      - publish:
           context:
             - AWS
           requires:
             - checkout
-      - deploy_python_package:
-          context:
-            - AWS
-          requires:
-            - deploy_pip_repository

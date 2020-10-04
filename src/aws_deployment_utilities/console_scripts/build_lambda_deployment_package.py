@@ -33,7 +33,9 @@ def main():
     __run_command('mkdir .build')
     __run_command('cp -r src .build')
     with open('.build/requirements.txt', 'w+') as requirements_file:
-        packages = next(x for x in parsed_pipfile if x[0] == 'packages')[1]
+        packages = next((x for x in parsed_pipfile if x[0] == 'packages'), (None, None))[1]
+        if not packages:
+            return
         for package, version in packages:
             requirements_file.write('%s%s\n' % (package, ('' if version == '*' else version)))
     install_command = 'pip install -r .build/requirements.txt -t .build --compile'

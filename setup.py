@@ -17,7 +17,7 @@ setup(
     },
     packages=find_packages('src'),
     entry_points={
-        'aws_deployment_utilities_scripts': [
+        'console_scripts': [
             'build_lambda = aws_deployment_utilities_scripts.build_lambda_deployment_package:main'
         ]
     },

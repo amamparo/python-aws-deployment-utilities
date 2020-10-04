@@ -11,7 +11,7 @@ setup(
     description='Helper functions and classes for common AWS operations during deployment',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/amamparo/python-aws-utilities',
+    url='https://github.com/amamparo/python-aws-deployment-utilities',
     package_dir={
         '': 'src'
     },

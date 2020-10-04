@@ -17,8 +17,8 @@ setup(
     },
     packages=find_packages('src'),
     entry_points={
-        'console_scripts': [
-            'build_lambda = console_scripts.build_lambda_deployment_package:main'
+        'aws_deployment_utilities_scripts': [
+            'build_lambda = aws_deployment_utilities_scripts.build_lambda_deployment_package:main'
         ]
     },
     classifiers=[

@@ -35,6 +35,8 @@ class MainStack(Stack):
 
 
 if __name__ == '__main__':
+    print('AWS_ACCESS_KEY_ID: ', environ.get('AWS_ACCESS_KEY_ID'))
+    print('AWS_SECRET_ACCESS_KEY: ', environ.get('AWS_SECRET_ACCESS_KEY'))
     app = App()
     MainStack(app, 'pip-repository', env=Environment(
         account=environ.get('AWS_ACCOUNT_ID'),

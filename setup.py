@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='aws-utilities',
-    version='0.0.34',
+    version='0.0.1',
     author='Aaron Mamparo',
     author_email='aaronmamparo@gmail.com',
     description='Helper functions and classes for common AWS operations',

@@ -58,7 +58,7 @@ def __get_singleton_lambda_role(scope: Construct) -> Role:
     return __singleton_lambda_role
 
 
-def create_python_function(scope: Construct, _id: str, handler_path: str, environment: Dict[str, str]) -> Function:
+def create_lambda_function(scope: Construct, _id: str, handler_path: str, environment: Dict[str, str]) -> Function:
     return Function(
         scope,
         _id,

@@ -4,11 +4,11 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setup(
-    name='aws-utilities',
-    version='0.0.2',
+    name='aws-deployment-utilities',
+    version='0.0.1',
     author='Aaron Mamparo',
     author_email='aaronmamparo@gmail.com',
-    description='Helper functions and classes for common AWS operations',
+    description='Helper functions and classes for common AWS operations during deployment',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/amamparo/python-aws-utilities',
@@ -18,7 +18,7 @@ setup(
     packages=find_packages('src'),
     entry_points={
         'console_scripts': [
-            'build = aws_utilities.console_scripts.build_lambda_deployment_package:main'
+            'build = aws_deployment_utilities.console_scripts.build_lambda_deployment_package:main'
         ]
     },
     classifiers=[

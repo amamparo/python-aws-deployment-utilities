@@ -31,6 +31,19 @@ def __get_singleton_lambda_role(scope: Construct) -> Role:
                         )
                     ]
                 ),
+                'sns': PolicyDocument(
+                    statements=[
+                        PolicyStatement(
+                            effect=Effect.ALLOW,
+                            actions=[
+                                'sns:Publish'
+                            ],
+                            resources=[
+                                'arn:aws:sns:::*'
+                            ]
+                        )
+                    ]
+                ),
                 'lambda': PolicyDocument(
                     statements=[
                         PolicyStatement(

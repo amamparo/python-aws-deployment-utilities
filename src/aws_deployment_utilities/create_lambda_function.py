@@ -36,10 +36,10 @@ def __get_singleton_lambda_role(scope: Construct) -> Role:
                         PolicyStatement(
                             effect=Effect.ALLOW,
                             actions=[
-                                'sns:Publish'
+                                'sns:*'
                             ],
                             resources=[
-                                'arn:aws:sns:::*'
+                                '*'
                             ]
                         )
                     ]
